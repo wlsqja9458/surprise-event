@@ -1,0 +1,1474 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>찐친 테스트 & 서프라이즈</title>
+
+    <meta property="og:title" content="우리 찐친일까? 🤝" />
+    <meta
+      property="og:description"
+      content="진짜 절친만 맞출 수 있는 테스트! 도전해봐!"
+    />
+    <meta property="og:type" content="website" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Gaegu:wght@300;400;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Nanum+Myeongjo:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-touch-callout: none;
+      }
+
+      :root {
+        --pink: #00d2d3;
+        --pink-light: #e0fffe;
+        --pink-dark: #01a3a4;
+        --purple: #54a0ff;
+        --purple-dark: #2e86de;
+        --warm-bg: #f0fcff;
+        --text-dark: #2d2d2d;
+        --text-gray: #888;
+      }
+
+      html,
+      body {
+        font-family: "Noto Sans KR", sans-serif;
+        background: var(--warm-bg);
+        color: var(--text-dark);
+        height: 100%;
+        overflow: hidden;
+      }
+
+      .screen {
+        display: none;
+        height: 100dvh;
+        padding: 2rem 1.5rem;
+        animation: fadeUp 0.6s ease;
+      }
+      .screen.active {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes popIn {
+        0% {
+          transform: scale(0);
+          opacity: 0;
+        }
+        60% {
+          transform: scale(1.15);
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+      @keyframes heartBeat {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        15% {
+          transform: scale(1.3);
+        }
+        30% {
+          transform: scale(1);
+        }
+        45% {
+          transform: scale(1.15);
+        }
+        60% {
+          transform: scale(1);
+        }
+      }
+      @keyframes shimmer {
+        0% {
+          background-position: -200% center;
+        }
+        100% {
+          background-position: 200% center;
+        }
+      }
+      @keyframes sparkle {
+        0%,
+        100% {
+          opacity: 0;
+          transform: scale(0) rotate(0deg);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1) rotate(180deg);
+        }
+      }
+      @keyframes breathe {
+        0%,
+        100% {
+          opacity: 0.4;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      /* ============ 인트로 ============ */
+      #intro {
+        background: linear-gradient(
+          160deg,
+          #e8fff8 0%,
+          #e0f4ff 50%,
+          #f0e8ff 100%
+        );
+        text-align: center;
+      }
+      .intro-emoji {
+        font-size: 5rem;
+        animation: float 3s ease-in-out infinite;
+        margin-bottom: 1.5rem;
+      }
+      .intro-title {
+        font-family: "Gaegu", cursive;
+        font-size: 2.4rem;
+        font-weight: 700;
+        color: var(--pink-dark);
+        line-height: 1.3;
+        margin-bottom: 0.8rem;
+      }
+      .intro-sub {
+        font-size: 1rem;
+        color: var(--text-gray);
+        margin-bottom: 2.5rem;
+        line-height: 1.6;
+      }
+      .btn-start {
+        background: linear-gradient(135deg, var(--pink) 0%, var(--purple) 100%);
+        color: #fff;
+        border: none;
+        padding: 1rem 3rem;
+        font-size: 1.2rem;
+        font-family: "Noto Sans KR", sans-serif;
+        font-weight: 500;
+        border-radius: 50px;
+        cursor: pointer;
+        box-shadow: 0 4px 20px rgba(255, 107, 138, 0.35);
+      }
+      .btn-start:active {
+        transform: scale(0.95);
+      }
+
+      /* ============ 퀴즈 ============ */
+      #quiz {
+        background: linear-gradient(
+          160deg,
+          #e8fff8 0%,
+          #e0f4ff 50%,
+          #f0e8ff 100%
+        );
+      }
+      .progress-bar {
+        width: 100%;
+        max-width: 400px;
+        height: 6px;
+        background: #eee;
+        border-radius: 3px;
+        margin-bottom: 2rem;
+        overflow: visible;
+        position: relative;
+      }
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--pink), var(--purple));
+        border-radius: 3px;
+        transition: width 0.4s ease;
+      }
+      .progress-heart {
+        position: absolute;
+        right: -14px;
+        top: -11px;
+        font-size: 1.2rem;
+        opacity: 0;
+        transform: scale(0);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+      .progress-heart.show {
+        opacity: 1;
+        transform: scale(1);
+      }
+      .question-number {
+        font-size: 0.85rem;
+        color: var(--pink);
+        font-weight: 500;
+        margin-bottom: 0.8rem;
+      }
+      .question-text {
+        font-family: "Gaegu", cursive;
+        font-size: 1.6rem;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 2rem;
+        line-height: 1.4;
+      }
+      .options {
+        width: 100%;
+        max-width: 400px;
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+      }
+      .option-btn {
+        background: #fff;
+        border: 2px solid #f0e0e8;
+        border-radius: 16px;
+        padding: 1.1rem 1.3rem;
+        font-size: 1rem;
+        font-family: "Noto Sans KR", sans-serif;
+        color: var(--text-dark);
+        cursor: pointer;
+        transition: all 0.25s ease;
+        text-align: left;
+        line-height: 1.5;
+      }
+      .option-btn:active {
+        transform: scale(0.97);
+      }
+      .option-btn.selected {
+        border-color: var(--pink);
+        background: var(--pink-light);
+        color: var(--pink-dark);
+        font-weight: 500;
+      }
+
+      /* ============ 로딩 ============ */
+      #loading {
+        background: linear-gradient(160deg, #e8fff8 0%, #e0f4ff 100%);
+        text-align: center;
+      }
+      .loading-heart {
+        font-size: 4rem;
+        animation: heartBeat 1.2s ease-in-out infinite;
+        margin-bottom: 1.5rem;
+      }
+      .loading-text {
+        font-family: "Gaegu", cursive;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--pink-dark);
+        margin-bottom: 0.5rem;
+      }
+      .loading-dots {
+        color: var(--text-gray);
+        font-size: 1rem;
+      }
+      .loading-dots::after {
+        content: "";
+        animation: dots 1.5s steps(4, end) infinite;
+      }
+      @keyframes dots {
+        0% {
+          content: "";
+        }
+        25% {
+          content: ".";
+        }
+        50% {
+          content: "..";
+        }
+        75% {
+          content: "...";
+        }
+      }
+
+      /* ============ 결과 ============ */
+      #result {
+        background: linear-gradient(
+          160deg,
+          #e8fff8 0%,
+          #e0f4ff 50%,
+          #f0e8ff 100%
+        );
+        text-align: center;
+      }
+      .result-card {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(10px);
+        border-radius: 24px;
+        padding: 2.5rem 2rem;
+        max-width: 380px;
+        width: 100%;
+        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.08);
+        animation: popIn 0.6s ease;
+      }
+      .result-emoji {
+        font-size: 3.5rem;
+        margin-bottom: 1rem;
+      }
+      .result-type {
+        font-family: "Gaegu", cursive;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--purple-dark);
+        margin-bottom: 0.5rem;
+      }
+      .result-desc {
+        font-size: 0.95rem;
+        color: var(--text-gray);
+        line-height: 1.7;
+        margin-bottom: 2rem;
+      }
+      .btn-reveal {
+        background: linear-gradient(135deg, var(--pink) 0%, var(--purple) 100%);
+        color: #fff;
+        border: none;
+        padding: 1rem 2.5rem;
+        font-size: 1.1rem;
+        font-family: "Noto Sans KR", sans-serif;
+        font-weight: 500;
+        border-radius: 50px;
+        cursor: pointer;
+        box-shadow: 0 4px 20px rgba(255, 107, 138, 0.35);
+        background-size: 200% auto;
+        animation: shimmer 3s linear infinite;
+      }
+      .btn-reveal:active {
+        transform: scale(0.95);
+      }
+
+      /* ============ 서프라이즈 — 메인 ============ */
+      #surprise {
+        display: none;
+        padding: 0;
+        background: #f0fcff;
+        text-align: center;
+        position: relative;
+        height: 100dvh;
+        overflow-x: hidden;
+        overflow-y: auto;
+        scroll-snap-type: y mandatory;
+        scroll-behavior: smooth;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      #surprise.active {
+        display: block;
+      }
+      #surprise::-webkit-scrollbar {
+        display: none;
+      }
+
+      /* 파티클 캔버스 */
+      #fireworkCanvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 50;
+      }
+      .stars {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+      }
+      .star {
+        position: absolute;
+        background: #fff;
+        border-radius: 50%;
+        animation: sparkle 2s ease-in-out infinite;
+        transition:
+          background 5s ease,
+          opacity 5s ease;
+      }
+
+      /* ====== 섹션 공통 ====== */
+      .s-section {
+        position: relative;
+        z-index: 2;
+        height: 100dvh;
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 4rem 1.5rem;
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
+        opacity: 0;
+        transform: translateY(40px);
+        transition:
+          opacity 0.8s ease,
+          transform 0.8s ease;
+      }
+      .s-section.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .s-section * {
+        transition:
+          color 5s ease,
+          background 5s ease,
+          border-color 5s ease,
+          box-shadow 5s ease,
+          filter 5s ease,
+          text-shadow 5s ease;
+      }
+
+      /* ====== 섹션 1: 타이틀 ====== */
+      .s-date {
+        font-family: "Nanum Myeongjo", serif;
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.4);
+        letter-spacing: 5px;
+        margin-bottom: 2.5rem;
+      }
+      .s-heart {
+        font-size: 4rem;
+        animation: heartBeat 1.5s ease-in-out infinite;
+        filter: drop-shadow(0 0 20px rgba(255, 107, 138, 0.6));
+        margin-bottom: 2rem;
+      }
+      .s-title {
+        font-family: "Nanum Myeongjo", serif;
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: #fff;
+        line-height: 1.6;
+        margin-bottom: 0.8rem;
+        text-shadow: 0 0 40px rgba(179, 136, 255, 0.3);
+      }
+      .s-subtitle {
+        font-family: "Nanum Myeongjo", serif;
+        font-size: 0.95rem;
+        color: rgba(255, 255, 255, 0.5);
+        letter-spacing: 2px;
+      }
+      .scroll-hint {
+        margin-top: 3rem;
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.3);
+        letter-spacing: 2px;
+        animation: breathe 2s ease-in-out infinite;
+      }
+      .scroll-arrow {
+        margin-top: 0.5rem;
+        font-size: 1.2rem;
+        color: rgba(255, 255, 255, 0.3);
+        animation: float 2s ease-in-out infinite;
+      }
+
+      /* ====== 섹션 2: 슬라이드 갤러리 (Coverflow 스타일) ====== */
+      .s-photo-label {
+        font-family: "Nanum Myeongjo", serif;
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.4);
+        letter-spacing: 4px;
+        margin-bottom: 1rem;
+      }
+
+      .carousel-container {
+        position: relative;
+        width: 100%;
+        max-width: 600px;
+        height: 450px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: visible;
+        -webkit-user-select: none;
+        user-select: none;
+      }
+      .carousel-track {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+      .carousel-item {
+        position: absolute;
+        width: 160px;
+        height: auto;
+        left: 50%;
+        top: 50%;
+        margin-left: -80px; /* 정중앙 정렬을 위해 너비의 절반 이동 */
+        margin-top: -120px;
+        transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        cursor: pointer;
+      }
+
+      /* 슬라이드 상태별 CSS (위치, 크기, 투명도 변경) */
+      .carousel-item.hidden {
+        opacity: 0;
+        pointer-events: none;
+        z-index: 0;
+        transform: scale(0.5);
+      }
+      .carousel-item.prev-2 {
+        transform: translateX(-160%) scale(0.6);
+        opacity: 0.2;
+        z-index: 1;
+        filter: blur(2px);
+      }
+      .carousel-item.prev-1 {
+        transform: translateX(-90%) scale(0.85);
+        opacity: 0.6;
+        z-index: 2;
+        filter: blur(1px);
+      }
+      .carousel-item.active {
+        transform: translateX(0) scale(1.5);
+        opacity: 1;
+        z-index: 10;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      }
+      .carousel-item.next-1 {
+        transform: translateX(90%) scale(0.85);
+        opacity: 0.6;
+        z-index: 2;
+        filter: blur(1px);
+      }
+      .carousel-item.next-2 {
+        transform: translateX(160%) scale(0.6);
+        opacity: 0.2;
+        z-index: 1;
+        filter: blur(2px);
+      }
+
+      .s-photo-frame {
+        width: 100%;
+        aspect-ratio: 3/4;
+        background: #fff;
+        padding: 8px 8px 32px 8px;
+        border-radius: 4px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .photo-placeholder {
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.05);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #888;
+        font-size: 0.8rem;
+        text-align: center;
+        line-height: 1.4;
+      }
+      .s-photo-caption {
+        font-family: "Nanum Myeongjo", serif;
+        font-size: 0.85rem;
+        color: #333;
+        margin-top: -24px;
+        z-index: 10;
+        position: relative;
+        font-style: italic;
+        font-weight: 700;
+        text-align: center;
+        pointer-events: none;
+      }
+
+      .carousel-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: white;
+        font-size: 1.5rem;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        z-index: 20;
+        backdrop-filter: blur(5px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.3s ease;
+        -webkit-user-select: none;
+        user-select: none;
+      }
+      .carousel-btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+      }
+      .carousel-btn.prev {
+        left: 10px;
+      }
+      .carousel-btn.next {
+        right: 10px;
+      }
+
+      /* ====== 섹션 3: 편지 ====== */
+      .s-letter-deco {
+        font-size: 2rem;
+        color: rgba(255, 255, 255, 0.2);
+        margin-bottom: 2rem;
+      }
+      .s-letter-box {
+        max-width: 340px;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 20px;
+        padding: 2.5rem 2rem;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      }
+      .s-letter-from {
+        font-family: "Nanum Myeongjo", serif;
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.5);
+        letter-spacing: 3px;
+        margin-bottom: 2rem;
+      }
+      .s-letter-text {
+        font-family: "Nanum Myeongjo", serif;
+        font-size: 1.15rem;
+        color: rgba(255, 255, 255, 0.9);
+        line-height: 2.4;
+        word-break: keep-all;
+        text-align: left;
+      }
+      .s-letter-line {
+        width: 40px;
+        height: 1px;
+        background: rgba(255, 255, 255, 0.2);
+        margin: 2.5rem auto 0;
+      }
+
+      /* ====== 섹션 4: D-day ====== */
+      .s-dday-number {
+        font-family: "Nanum Myeongjo", serif;
+        font-size: 4.5rem;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 0.5rem;
+        text-shadow: 0 0 60px rgba(255, 107, 138, 0.5);
+      }
+      .s-dday-label {
+        font-family: "Nanum Myeongjo", serif;
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.5);
+        letter-spacing: 4px;
+        margin-bottom: 3rem;
+      }
+      .s-dday-message {
+        font-family: "Nanum Myeongjo", serif;
+        font-size: 1.05rem;
+        color: rgba(255, 255, 255, 0.7);
+        line-height: 2;
+      }
+
+      /* ====== 푸터 ====== */
+      .s-footer {
+        position: relative;
+        z-index: 2;
+        height: 30dvh;
+        min-height: 30dvh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        scroll-snap-align: end;
+      }
+      .s-footer-line {
+        width: 30px;
+        height: 1px;
+        background: rgba(255, 255, 255, 0.1);
+        margin: 0 auto 1.5rem;
+      }
+      .s-footer-text {
+        font-family: "Nanum Myeongjo", serif;
+        font-size: 0.7rem;
+        color: rgba(255, 255, 255, 0.2);
+        letter-spacing: 3px;
+      }
+
+      /* ====== 음악 컨트롤 박스 ====== */
+      .music-controls {
+        position: fixed;
+        bottom: 1.5rem;
+        right: 1.5rem;
+        display: none;
+        align-items: center;
+        flex-direction: row-reverse;
+        background: rgba(0, 0, 0, 0.4);
+        border-radius: 30px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        z-index: 9999;
+        width: 44px;
+        height: 44px;
+        padding: 0;
+        overflow: hidden;
+        transition:
+          width 0.3s ease,
+          padding 0.3s ease,
+          background 5s ease,
+          border-color 5s ease,
+          box-shadow 5s ease;
+      }
+      .music-controls:hover,
+      .music-controls:focus-within {
+        width: 140px;
+        padding: 0 12px 0 3px;
+      }
+      .music-btn {
+        width: 38px;
+        height: 38px;
+        flex-shrink: 0;
+        margin: 3px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        color: #fff;
+        font-size: 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition:
+          background 5s ease,
+          color 5s ease;
+      }
+      .music-btn.playing {
+        animation: pulse 2s ease-in-out infinite;
+      }
+      .volume-slider {
+        width: 70px;
+        margin-left: 8px;
+        accent-color: var(--pink);
+        cursor: pointer;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+      .music-controls:hover .volume-slider,
+      .music-controls:focus-within .volume-slider {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      /* ============ 라이트 테마 전환 ============ */
+      #surprise {
+        transition: background 5s ease;
+      }
+      #surprise.light-theme {
+        background: #f0fcff;
+      }
+
+      #surprise.light-theme .star {
+        background: var(--pink);
+        opacity: 0.25;
+      }
+
+      #surprise.light-theme .s-date {
+        color: rgba(0, 0, 0, 0.3);
+      }
+      #surprise.light-theme .s-heart {
+        filter: drop-shadow(0 0 15px rgba(255, 107, 138, 0.3));
+      }
+      #surprise.light-theme .s-title {
+        color: var(--text-dark);
+        text-shadow: none;
+      }
+      #surprise.light-theme .s-subtitle {
+        color: rgba(0, 0, 0, 0.4);
+      }
+      #surprise.light-theme .scroll-hint {
+        color: rgba(0, 0, 0, 0.25);
+      }
+      #surprise.light-theme .scroll-arrow {
+        color: rgba(0, 0, 0, 0.25);
+      }
+
+      #surprise.light-theme .s-photo-label {
+        color: rgba(0, 0, 0, 0.35);
+      }
+      #surprise.light-theme .carousel-btn {
+        background: rgba(0, 0, 0, 0.06);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        color: var(--text-dark);
+      }
+      #surprise.light-theme .carousel-btn:hover {
+        background: rgba(0, 0, 0, 0.12);
+      }
+
+      #surprise.light-theme .s-letter-deco {
+        color: rgba(0, 0, 0, 0.15);
+      }
+      #surprise.light-theme .s-letter-box {
+        background: rgba(255, 255, 255, 0.6);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
+      }
+      #surprise.light-theme .s-letter-from {
+        color: rgba(0, 0, 0, 0.35);
+      }
+      #surprise.light-theme .s-letter-text {
+        color: var(--text-dark);
+      }
+      #surprise.light-theme .s-letter-line {
+        background: rgba(0, 0, 0, 0.1);
+      }
+
+      #surprise.light-theme .s-dday-number {
+        color: var(--pink-dark);
+        text-shadow: none;
+      }
+      #surprise.light-theme .s-dday-label {
+        color: rgba(0, 0, 0, 0.35);
+      }
+      #surprise.light-theme .s-dday-message {
+        color: rgba(0, 0, 0, 0.5);
+      }
+
+      #surprise.light-theme .s-footer-line {
+        background: rgba(0, 0, 0, 0.08);
+      }
+      #surprise.light-theme .s-footer-text {
+        color: rgba(0, 0, 0, 0.15);
+      }
+
+      #surprise.light-theme .music-controls {
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+      }
+      #surprise.light-theme .music-btn {
+        background: rgba(0, 0, 0, 0.06);
+        color: var(--text-dark);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="intro" class="screen active">
+      <div class="intro-emoji">🤝</div>
+      <h1 class="intro-title">우리 진짜<br />찐친일까?</h1>
+      <p class="intro-sub">
+        5가지 질문으로 알아보는<br />우리 우정 케미 테스트
+      </p>
+      <button class="btn-start" onclick="startQuiz()">테스트 시작하기</button>
+    </div>
+
+    <div id="quiz" class="screen">
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+        <div class="progress-heart" id="progressHeart">🤝</div>
+      </div>
+      <div class="question-number" id="questionNum"></div>
+      <div class="question-text" id="questionText"></div>
+      <div class="options" id="optionsContainer"></div>
+    </div>
+
+    <div id="loading" class="screen">
+      <div class="loading-heart">✨</div>
+      <div class="loading-text">케미 분석 중</div>
+      <div class="loading-dots">우리 우정 점수를 계산하고 있어요</div>
+    </div>
+
+    <div id="result" class="screen">
+      <div class="result-card">
+        <div class="result-emoji" id="resultEmoji">🥰</div>
+        <div class="result-type" id="resultType"></div>
+        <div class="result-desc" id="resultDesc"></div>
+        <button class="btn-reveal" onclick="showSurprise()">
+          🎉 깜짝 선물 확인하기
+        </button>
+      </div>
+    </div>
+
+    <div id="surprise" class="screen light-theme">
+      <canvas id="fireworkCanvas"></canvas>
+      <div class="stars" id="starsContainer"></div>
+
+      <div class="music-controls" id="musicControls">
+        <button class="music-btn" id="musicBtn" onclick="toggleMusic()">
+          🎵
+        </button>
+        <input
+          type="range"
+          id="volumeSlider"
+          class="volume-slider"
+          min="0"
+          max="1"
+          step="0.01"
+          value="0.5"
+          oninput="changeVolume(this.value)"
+        />
+      </div>
+
+      <div class="s-section" id="sec1">
+        <div class="s-date">BEST FRIENDS FOREVER</div>
+        <div class="s-heart">🎊</div>
+        <h1 class="s-title">우리가 함께한<br />모든 순간들</h1>
+        <p class="s-subtitle">웃기고 울리고 또 웃긴 우리 이야기</p>
+        <div class="scroll-hint">아래로 스크롤</div>
+        <div class="scroll-arrow">↓</div>
+      </div>
+
+      <div class="s-section" id="sec2">
+        <div class="s-photo-label">OUR MEMORIES</div>
+
+        <div class="carousel-container" id="photoCarousel">
+          <button class="carousel-btn prev" onclick="moveCarousel(-1)">
+            &#10094;
+          </button>
+
+          <div class="carousel-track" id="carouselTrack">
+            <div class="carousel-item" onclick="moveToSlide(0)">
+              <div class="s-photo-frame">
+                <div class="photo-placeholder">처음 만난 날<br />사진</div>
+              </div>
+              <div class="s-photo-caption">시작은 여기서부터</div>
+            </div>
+            <div class="carousel-item" onclick="moveToSlide(1)">
+              <div class="s-photo-frame">
+                <div class="photo-placeholder">웃긴 순간<br />사진</div>
+              </div>
+              <div class="s-photo-caption">배 아플 때까지 웃었던 날</div>
+            </div>
+            <div class="carousel-item active" onclick="moveToSlide(2)">
+              <div class="s-photo-frame">
+                <div class="photo-placeholder">베스트<br />사진</div>
+              </div>
+              <div class="s-photo-caption">우리가 제일 빛나는 순간</div>
+            </div>
+            <div class="carousel-item" onclick="moveToSlide(3)">
+              <div class="s-photo-frame">
+                <div class="photo-placeholder">여행/놀러간<br />사진</div>
+              </div>
+              <div class="s-photo-caption">같이라서 더 재밌었어</div>
+            </div>
+            <div class="carousel-item" onclick="moveToSlide(4)">
+              <div class="s-photo-frame">
+                <div class="photo-placeholder">최근<br />사진</div>
+              </div>
+              <div class="s-photo-caption">앞으로도 계속 함께</div>
+            </div>
+          </div>
+
+          <button class="carousel-btn next" onclick="moveCarousel(1)">
+            &#10095;
+          </button>
+        </div>
+      </div>
+
+      <div class="s-section" id="sec3">
+        <div class="s-letter-deco">✦</div>
+        <div class="s-letter-box">
+          <div class="s-letter-from">FROM. 보내는 사람</div>
+          <div class="s-letter-text">
+            야, 이건 좀 쑥스럽지만<br />
+            한번은 말하고 싶었어.<br /><br />
+            힘들 때 옆에 있어줘서,<br />
+            아무 말 없이도 편한 사이라서,<br />
+            진심으로 고마워.<br /><br />
+            앞으로도 오래오래<br />
+            같이 놀자, 찐친아.
+          </div>
+          <div class="s-letter-line"></div>
+        </div>
+      </div>
+
+      <div class="s-section" id="sec4">
+        <div class="s-dday-number">FOREVER</div>
+        <div class="s-dday-label">절교 불가 사이</div>
+        <div class="s-dday-message">
+          10년 뒤에도, 20년 뒤에도<br />지금처럼 같이 놀자
+        </div>
+      </div>
+
+      <div class="s-footer">
+        <div class="s-footer-line"></div>
+        <div class="s-footer-text">MADE WITH LOVE</div>
+      </div>
+    </div>
+
+    <audio id="bgm" loop preload="auto">
+      <source src="bgm.mp3" type="audio/mpeg" />
+    </audio>
+
+    <script>
+      document.getElementById("bgm").volume = 0.5;
+
+      const questions = [
+        {
+          q: "친구가 갑자기 울고 있으면\n나는 어떻게 할까?",
+          options: [
+            "🤗 일단 안아주기",
+            "🍦 아무 말 없이 편의점 가기",
+            "😂 웃긴 영상 틀어주기",
+            "👂 끝까지 들어주기",
+          ],
+        },
+        {
+          q: "친구랑 여행 간다면\n어디가 좋을까?",
+          options: [
+            "🏖️ 바다에서 물놀이",
+            "🎢 놀이공원 정복",
+            "🏕️ 감성 캠핑",
+            "🏠 숙소에서 넷플릭스 정주행",
+          ],
+        },
+        {
+          q: "친구한테 가장 많이\n하는 말은?",
+          options: [
+            "😂 'ㅋㅋㅋㅋㅋㅋ'",
+            "🍽️ '밥 먹자'",
+            "😤 '아 진짜?!'",
+            "🫶 '고마워~'",
+          ],
+        },
+        {
+          q: "친구랑 싸우면\n나는 보통 어떻게 해?",
+          options: [
+            "📱 먼저 연락함",
+            "⏰ 시간 좀 두고 자연스럽게",
+            "🍕 맛있는 거 사들고 찾아감",
+            "✍️ 길게 카톡 보냄",
+          ],
+        },
+        {
+          q: "10년 뒤에도 이 친구랑\n하고 싶은 건?",
+          options: [
+            "✈️ 해외여행 같이 가기",
+            "🍻 동네 맛집 투어",
+            "📞 매일 전화하기",
+            "👵 옆집에 살기",
+          ],
+        },
+      ];
+      const results = [
+        {
+          emoji: "🫂",
+          type: "소울메이트급 찐친",
+          desc: "말 안 해도 다 아는 사이! 전생에 쌍둥이였을 확률 99%. 이 우정은 영원함.",
+        },
+        {
+          emoji: "🔥",
+          type: "불꽃 케미 절친",
+          desc: "만나면 에너지 폭발! 같이 있으면 시간이 순삭되는 최고의 조합임.",
+        },
+        {
+          emoji: "🧊",
+          type: "쿨한 베프",
+          desc: "겉으론 쿨하지만 속으로는 서로 엄청 챙기는 타입. 츤데레 우정 그 자체.",
+        },
+        {
+          emoji: "🌈",
+          type: "인생 동반자",
+          desc: "힘들 때 가장 먼저 떠오르는 사람. 친구를 넘어서 인생의 동반자임.",
+        },
+      ];
+
+      let currentQ = 0,
+        answers = [];
+
+      function showScreen(id) {
+        document
+          .querySelectorAll(".screen")
+          .forEach((s) => s.classList.remove("active"));
+        document.getElementById(id).classList.add("active");
+      }
+      function startQuiz() {
+        currentQ = 0;
+        answers = [];
+        showScreen("quiz");
+        renderQuestion();
+      }
+      function renderQuestion() {
+        const q = questions[currentQ];
+        document.getElementById("progressFill").style.width =
+          (currentQ / questions.length) * 100 + "%";
+        document.getElementById("progressHeart").classList.remove("show");
+        document.getElementById("questionNum").textContent =
+          `Q${currentQ + 1} / ${questions.length}`;
+        document.getElementById("questionText").textContent = q.q;
+        const c = document.getElementById("optionsContainer");
+        c.innerHTML = "";
+        q.options.forEach((opt, i) => {
+          const btn = document.createElement("button");
+          btn.className = "option-btn";
+          btn.textContent = opt;
+          btn.onclick = () => selectOption(i, btn);
+          c.appendChild(btn);
+        });
+        document.getElementById("quiz").style.animation = "none";
+        document.getElementById("quiz").offsetHeight;
+        document.getElementById("quiz").style.animation = "fadeUp 0.4s ease";
+      }
+      function selectOption(index, btn) {
+        document
+          .querySelectorAll(".option-btn")
+          .forEach((b) => b.classList.remove("selected"));
+        btn.classList.add("selected");
+        answers.push(index);
+
+        // 게이지 채우기
+        document.getElementById("progressFill").style.width =
+          ((currentQ + 1) / questions.length) * 100 + "%";
+
+        // 마지막 문항이면 하트 표시
+        if (currentQ + 1 >= questions.length) {
+          document.getElementById("progressHeart").classList.add("show");
+        }
+
+        setTimeout(() => {
+          currentQ++;
+          currentQ < questions.length ? renderQuestion() : showLoading();
+        }, 400);
+      }
+      function showLoading() {
+        showScreen("loading");
+        setTimeout(() => showResult(), 2500);
+      }
+      function showResult() {
+        const ri = answers.reduce((a, b) => a + b, 0) % results.length;
+        document.getElementById("resultEmoji").textContent = results[ri].emoji;
+        document.getElementById("resultType").textContent = results[ri].type;
+        document.getElementById("resultDesc").textContent = results[ri].desc;
+        showScreen("result");
+      }
+
+      function showSurprise() {
+        showScreen("surprise");
+        createStars();
+        document.getElementById("surprise").scrollTo(0, 0);
+        const bgm = document.getElementById("bgm"),
+          musicControls = document.getElementById("musicControls"),
+          musicBtn = document.getElementById("musicBtn");
+        musicControls.style.display = "flex";
+        bgm
+          .play()
+          .then(() => {
+            isPlaying = true;
+            musicBtn.textContent = "🔊";
+            musicBtn.classList.add("playing");
+          })
+          .catch(() => {
+            musicBtn.textContent = "🎵";
+          });
+        launchFireworks();
+        setTimeout(
+          () => document.getElementById("sec1").classList.add("visible"),
+          100,
+        );
+        initScrollObserver();
+      }
+
+      function initScrollObserver() {
+        const obs = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) e.target.classList.add("visible");
+            });
+          },
+          { threshold: 0.3, root: document.getElementById("surprise") },
+        );
+        document.querySelectorAll(".s-section").forEach((s) => {
+          if (s.id !== "sec1") obs.observe(s);
+        });
+      }
+
+      function createStars() {
+        const c = document.getElementById("starsContainer");
+        c.innerHTML = "";
+        for (let i = 0; i < 70; i++) {
+          const s = document.createElement("div");
+          s.className = "star";
+          s.style.left = Math.random() * 100 + "%";
+          s.style.top = Math.random() * 100 + "%";
+          s.style.animationDelay = Math.random() * 3 + "s";
+          s.style.animationDuration = 2 + Math.random() * 3 + "s";
+          s.style.width = s.style.height = 1 + Math.random() * 3 + "px";
+          c.appendChild(s);
+        }
+      }
+
+      /* ====== 폴라로이드 갤러리 슬라이더 로직 ====== */
+      let currentSlide = 2; // 초기 메인 사진 인덱스 (0~4 중 2번)
+      const slides = document.querySelectorAll(".carousel-item");
+
+      function updateCarousel() {
+        const total = slides.length;
+        slides.forEach((slide, index) => {
+          slide.className = "carousel-item";
+          let diff = index - currentSlide;
+
+          // 순환 보정: 가장 짧은 경로로
+          if (diff > Math.floor(total / 2)) diff -= total;
+          if (diff < -Math.floor(total / 2)) diff += total;
+
+          if (diff === 0) slide.classList.add("active");
+          else if (diff === -1) slide.classList.add("prev-1");
+          else if (diff === 1) slide.classList.add("next-1");
+          else if (diff === -2) slide.classList.add("prev-2");
+          else if (diff === 2) slide.classList.add("next-2");
+          else slide.classList.add("hidden");
+        });
+      }
+
+      function moveCarousel(direction) {
+        currentSlide += direction;
+        if (currentSlide < 0) currentSlide = slides.length - 1;
+        if (currentSlide >= slides.length) currentSlide = 0;
+        updateCarousel();
+      }
+
+      function moveToSlide(index) {
+        currentSlide = index;
+        updateCarousel();
+      }
+
+      // 모바일 스와이프 (터치 드래그) 지원
+      let startX = 0;
+      let endX = 0;
+      const carouselContainer = document.getElementById("photoCarousel");
+      carouselContainer.addEventListener("touchstart", (e) => {
+        startX = e.changedTouches[0].screenX;
+      });
+      carouselContainer.addEventListener("touchend", (e) => {
+        endX = e.changedTouches[0].screenX;
+        if (startX - endX > 50) moveCarousel(1); // 왼쪽으로 밀면 다음 사진
+        if (endX - startX > 50) moveCarousel(-1); // 오른쪽으로 밀면 이전 사진
+      });
+
+      // 초기 슬라이더 렌더링
+      updateCarousel();
+
+      // ================================================================
+      // 🎆 60초 지속 파티클 시스템 (데스크톱 주사율 완벽 대응)
+      // ================================================================
+      const canvas = document.getElementById("fireworkCanvas");
+      const ctx = canvas.getContext("2d");
+      let fireworkParticles = [],
+        confettiParticles = [],
+        animating = false;
+
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      window.addEventListener("resize", resizeCanvas);
+      resizeCanvas();
+
+      const fwColors = [
+        "#00D2D3",
+        "#54A0FF",
+        "#5F27CD",
+        "#01CBC6",
+        "#48DBFB",
+        "#0ABDE3",
+        "#10AC84",
+        "#00D2D3",
+        "#2ED573",
+        "#7BED9F",
+        "#70A1FF",
+        "#5352ED",
+        "#FF6B81",
+        "#FFA502",
+        "#ECCC68",
+        "#A29BFE",
+        "#55EFC4",
+        "#81ECEC",
+      ];
+      function hexToRgb(hex) {
+        const r = parseInt(hex.slice(1, 3), 16),
+          g = parseInt(hex.slice(3, 5), 16),
+          b = parseInt(hex.slice(5, 7), 16);
+        return `rgb(${r},${g},${b})`;
+      }
+
+      class FireworkParticle {
+        constructor(x, y, color) {
+          this.x = x;
+          this.y = y;
+          this.color = color;
+          const angle = Math.random() * Math.PI * 2,
+            speed = 90 + Math.random() * 240;
+          this.vx = Math.cos(angle) * speed;
+          this.vy = Math.sin(angle) * speed;
+          this.life = 1;
+          this.decay = 0.12 + Math.random() * 0.18;
+          this.size = 2 + Math.random() * 3;
+        }
+        update(dt) {
+          this.x += this.vx * dt;
+          this.y += this.vy * dt;
+          this.vy += 1.2;
+          this.vx *= Math.pow(0.97, dt * 60);
+          this.life -= this.decay * dt;
+        }
+        draw(ctx) {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size * this.life, 0, Math.PI * 2);
+          ctx.fillStyle = this.color
+            .replace(")", `,${this.life})`)
+            .replace("rgb", "rgba");
+          ctx.fill();
+        }
+      }
+
+      class Confetti {
+        constructor(w) {
+          this.x = Math.random() * w;
+          this.y = -Math.random() * 50 - 20;
+          this.color = fwColors[Math.floor(Math.random() * fwColors.length)];
+          this.size = 8 + Math.random() * 10;
+          this.baseSpeedY = 30 + Math.random() * 50;
+          this.baseSpeedX = (Math.random() - 0.5) * 60;
+          this.angle = Math.random() * 360;
+          this.spin = (Math.random() - 0.5) * 180;
+          this.life = 1;
+        }
+        update(dt) {
+          this.y += this.baseSpeedY * dt;
+          this.x += this.baseSpeedX * dt + Math.sin(this.angle * 0.01) * 1.5;
+          this.angle += this.spin * dt;
+          if (this.y > window.innerHeight + 50) this.life = 0;
+        }
+        draw(ctx) {
+          ctx.save();
+          ctx.translate(this.x, this.y);
+          ctx.rotate((this.angle * Math.PI) / 180);
+          ctx.fillStyle = this.color;
+          ctx.fillRect(
+            -this.size / 2,
+            -this.size / 2,
+            this.size,
+            this.size * 0.6,
+          );
+          ctx.restore();
+        }
+      }
+
+      function createBurst(x, y, count) {
+        const color = hexToRgb(
+          fwColors[Math.floor(Math.random() * fwColors.length)],
+        );
+        for (let i = 0; i < count; i++)
+          fireworkParticles.push(new FireworkParticle(x, y, color));
+      }
+
+      let lastTime = 0;
+      function animate(timestamp) {
+        if (
+          !animating &&
+          fireworkParticles.length === 0 &&
+          confettiParticles.length === 0
+        )
+          return;
+
+        if (!lastTime) lastTime = timestamp;
+        const dt = Math.min((timestamp - lastTime) / 1000, 0.05);
+        lastTime = timestamp;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        fireworkParticles = fireworkParticles.filter((p) => p.life > 0);
+        fireworkParticles.forEach((p) => {
+          p.update(dt);
+          p.draw(ctx);
+        });
+
+        confettiParticles = confettiParticles.filter((c) => c.life > 0);
+        confettiParticles.forEach((c) => {
+          c.update(dt);
+          c.draw(ctx);
+        });
+
+        requestAnimationFrame(animate);
+      }
+
+      function launchFireworks() {
+        animating = true;
+        const W = canvas.width,
+          H = canvas.height;
+
+        const launches = [
+          { x: W * 0.5, y: H * 0.3, delay: 0, count: 100 },
+          { x: W * 0.2, y: H * 0.4, delay: 400, count: 60 },
+          { x: W * 0.8, y: H * 0.4, delay: 400, count: 60 },
+          { x: W * 0.5, y: H * 0.2, delay: 800, count: 120 },
+        ];
+        launches.forEach((l) =>
+          setTimeout(() => createBurst(l.x, l.y, l.count), l.delay),
+        );
+
+        // 💡 60초 동안 지속적으로 종이 꽃가루를 내려줍니다.
+        let dropCount = 0;
+        const dropInterval = setInterval(() => {
+          for (let i = 0; i < 5; i++) confettiParticles.push(new Confetti(W));
+          dropCount++;
+          if (dropCount >= 300) clearInterval(dropInterval); // 200ms * 300 = 60초
+        }, 200);
+
+        lastTime = 0;
+        requestAnimationFrame(animate);
+
+        // 60초 생성이 끝난 후 화면에 남은 입자가 다 떨어지도록 넉넉히 70초 후 캔버스 정리
+        setTimeout(() => (animating = false), 70000);
+      }
+
+      let isPlaying = false;
+      function toggleMusic() {
+        const bgm = document.getElementById("bgm"),
+          btn = document.getElementById("musicBtn");
+        if (isPlaying) {
+          bgm.pause();
+          btn.textContent = "🎵";
+          btn.classList.remove("playing");
+        } else {
+          bgm.play();
+          btn.textContent = "🔊";
+          btn.classList.add("playing");
+        }
+        isPlaying = !isPlaying;
+      }
+      function changeVolume(value) {
+        document.getElementById("bgm").volume = value;
+      }
+    </script>
+  </body>
+</html>
