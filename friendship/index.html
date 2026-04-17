@@ -227,6 +227,60 @@
         opacity: 1;
         transform: scale(1);
       }
+      .progress-heart.show::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 28px;
+        height: 28px;
+        background:
+          linear-gradient(
+            to bottom,
+            transparent 46%,
+            var(--pink) 46%,
+            var(--pink) 54%,
+            transparent 54%
+          ),
+          linear-gradient(
+            to right,
+            transparent 46%,
+            var(--purple) 46%,
+            var(--purple) 54%,
+            transparent 54%
+          ),
+          linear-gradient(
+            45deg,
+            transparent 46%,
+            var(--pink-dark) 46%,
+            var(--pink-dark) 54%,
+            transparent 54%
+          ),
+          linear-gradient(
+            -45deg,
+            transparent 46%,
+            var(--purple-dark) 46%,
+            var(--purple-dark) 54%,
+            transparent 54%
+          );
+        z-index: -1;
+        pointer-events: none;
+        border-radius: 50%;
+        animation: popBurst 0.5s ease-out forwards;
+      }
+      @keyframes popBurst {
+        0% {
+          transform: translate(-50%, -50%) scale(0.3);
+          opacity: 1;
+        }
+        60% {
+          opacity: 1;
+        }
+        100% {
+          transform: translate(-50%, -50%) scale(1.3);
+          opacity: 0;
+        }
+      }
       .question-number {
         font-size: 0.85rem;
         color: var(--pink);
@@ -879,6 +933,87 @@
         background: rgba(0, 0, 0, 0.06);
         color: var(--text-dark);
       }
+      /* 하트가 나타날 때 폭죽 애니메이션 */
+      .progress-heart.show::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 60px; /* 폭죽이 날아갈 최대 반경 */
+        height: 60px;
+        transform: translate(-50%, -50%);
+
+        /* 1. 8방향 정지된 선 그리기 (원한다면 white 대신 var(--pink) 사용 가능) */
+        background:
+          linear-gradient(
+            to bottom,
+            transparent 48%,
+            white 48%,
+            white 52%,
+            transparent 52%
+          ),
+          linear-gradient(
+            to right,
+            transparent 48%,
+            white 48%,
+            white 52%,
+            transparent 52%
+          ),
+          linear-gradient(
+            45deg,
+            transparent 48%,
+            white 48%,
+            white 52%,
+            transparent 52%
+          ),
+          linear-gradient(
+            -45deg,
+            transparent 48%,
+            white 48%,
+            white 52%,
+            transparent 52%
+          );
+        border-radius: 50%;
+        z-index: -1;
+
+        /* 2. 핵심: 도넛 모양의 투명 마스크 (스캐너 역할) */
+        -webkit-mask-image: radial-gradient(
+          circle,
+          transparent 25%,
+          black 30%,
+          black 55%,
+          transparent 60%
+        );
+        mask-image: radial-gradient(
+          circle,
+          transparent 25%,
+          black 30%,
+          black 55%,
+          transparent 60%
+        );
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+
+        /* 3. 0.6초 동안 마스크 크기 애니메이션 실행 */
+        animation: shootingStar 0.6s ease-out forwards;
+      }
+
+      /* 폭죽 스캐너 움직임 정의 */
+      @keyframes shootingStar {
+        0% {
+          -webkit-mask-size: 0% 0%;
+          mask-size: 0% 0%;
+          opacity: 1;
+        }
+        100% {
+          /* 마스크가 200%까지 커지면 내부 투명 구멍(25%)이 전체를 덮어 꼬리까지 소멸함 */
+          -webkit-mask-size: 200% 200%;
+          mask-size: 200% 200%;
+          opacity: 0;
+        }
+      }
     </style>
   </head>
   <body>
@@ -1342,7 +1477,13 @@
         }
         draw(ctx) {
           ctx.beginPath();
-          ctx.arc(this.x, this.y, this.size * this.life, 0, Math.PI * 2);
+          ctx.arc(
+            this.x,
+            this.y,
+            Math.max(0, this.size * this.life),
+            0,
+            Math.PI * 2,
+          );
           ctx.fillStyle = this.color
             .replace(")", `,${this.life})`)
             .replace("rgb", "rgba");
@@ -1441,7 +1582,7 @@
         const dropInterval = setInterval(() => {
           for (let i = 0; i < 5; i++) confettiParticles.push(new Confetti(W));
           dropCount++;
-          if (dropCount >= 300) clearInterval(dropInterval); // 200ms * 300 = 60초
+          if (dropCount >= 25) clearInterval(dropInterval); // 5초간 유지
         }, 200);
 
         lastTime = 0;
